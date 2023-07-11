@@ -15,7 +15,7 @@ const DetailsHeader = ({pressHandler}) => {
      <Text style={{color:'#F9F3F3', fontSize: 18, fontWeight: 'bold',fontFamily:'Ledger'}}>Details</Text>
    </View>
    <View style={styles.rightSection}>
-
+        
    </View>
 </View>
   )

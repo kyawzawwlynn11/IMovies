@@ -23,7 +23,7 @@ const Home = ({navigation}) => {
   const [moviesPage,setMoviePage] = useState(1)
   const [seriesPage, setSeriesPage] = useState(1)
 
-
+ //console.log('first_air_date' in seriesData[0])
  
   contents = [
     {id: 1, name: 'Trending Movies'},

@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View,Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,Image, TouchableOpacity, Dimensions } from 'react-native'
 import React from 'react'
 import colors from '../../constants/colors'
 import { AntDesign } from '@expo/vector-icons';
 
+const{width,height} = Dimensions.get('window')
+
 export default function Card({item,uri,state, pressHandler}) {
   return (
-    <TouchableOpacity style={{width: 150, height: 250, backgroundColor:'green', marginVertical:35}} onPress={()=> pressHandler(item)}>
+    <TouchableOpacity style={[{width: width*0.4, height: height*0.3, backgroundColor:'green', marginVertical:35}]} onPress={()=> pressHandler(item)}>
                 
         <Image 
         source={{uri: uri + item.poster_path}}
