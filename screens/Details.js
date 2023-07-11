@@ -10,7 +10,7 @@ import Card from '../components/reusable/Card'
 
 const {width,height} = Dimensions.get('window')
 const Details = ({route,navigation}) => {
-  const imgurl = 'http://image.tmdb.org/t/p/w500'
+  const imgurl = 'http://image.tmdb.org/t/p/w200'
   const {data} = route.params;
   const [details,setDetails] = useState([])
   const [loading, setLoading] = useState(true)
@@ -169,7 +169,7 @@ console.log(data.id, data.original_title, data.name, data.id)
                        {details.genres.map(item => {
                          return (
                           <View style={{width:width*0.2, height:height*0.03,borderWidth:1, borderRadius:5, borderColor:colors.purple}}>
-                            <Text style={{color:colors.purple, width:'100%', height:'100%', fontSize:height*0.015, textAlign:'center', textAlignVertical: 'center'}}>{item.name}</Text>
+                            <Text style={{color:colors.purple, width:'100%', height:'100%', fontSize:item.name.length > 5 ? height*0.011:height*0.015, textAlign:'center', textAlignVertical: 'center'}}>{item.name}</Text>
                           </View>
                          )
                        })}
@@ -197,6 +197,11 @@ console.log(data.id, data.original_title, data.name, data.id)
                  
                <FlatList 
                data={recommendedList}
+               showsVerticalScrollIndicator={false}
+               showsHorizontalScrollIndicator={false}
+               
+               onEndReachedThreshold={5}
+              
                renderItem={({item}) => {
                 return (
                   <TouchableOpacity style={[{width: width*0.35,backgroundColor:colors.secondary, height: height*0.2, marginHorizontal: width*0.01}]} onPress={()=> cardPresshandler(item)}>
@@ -204,9 +209,10 @@ console.log(data.id, data.original_title, data.name, data.id)
                   <Image 
                   source={{uri: imgurl + item.poster_path}}
                   style={{
-                    width:'100%',
+                    width:'90%',
                     height:'100%',
-                    resizeMode:'contain'
+                    resizeMode:'cover',
+                    alignSelf:'center'
                   }}
                   />
           
@@ -254,7 +260,7 @@ const styles = StyleSheet.create({
     firstSection:{
       flex:0.56,
       //backgroundColor:'orange',
-      width: width-20,
+      width: width-30,
       alignSelf:'center'
     },
     details:{
@@ -284,8 +290,8 @@ const styles = StyleSheet.create({
     },
    
     titleView:{
-      width: '95%',
-      alignSelf:'center',
+      // width: '100%',
+     // alignSelf:'center',
       //flex:0.2,
      // backgroundColor:'white',
       justifyContent:'center',
@@ -293,7 +299,7 @@ const styles = StyleSheet.create({
     },
 
     descView:{
-      width:'95%',
+      
       //flex:0.8,
       //backgroundColor:'red',
       alignSelf:'center',
@@ -301,14 +307,15 @@ const styles = StyleSheet.create({
     secondSection:{
      // backgroundColor:'red',
       flex:0.36,
-      width: width -20,
+      width: width -40,
       alignSelf:'center',
       
     },
     recommendedtitle:{
          // backgroundColor:'gray',
           flex:0.2,
-          justifyContent:'center'
+          justifyContent:'center',
+          //width:'95%'
     },
     similarContents:{
       flex:0.8,

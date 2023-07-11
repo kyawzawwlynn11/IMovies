@@ -121,11 +121,11 @@ const Home = ({navigation}) => {
         <View style={styles.switchAndTitle}>
           <View style={styles.switch}>
             <TouchableOpacity onPress={()=>setState('movies')} style={[styles.selected,state==='movies' && {backgroundColor:colors.purple}]}>
-              <Text style={[{color:colors.purple, width:'100%', textAlign:'center'}, state === 'movies' && {color:colors.secondary}]}>Movies</Text>
+              <Text style={[{color:colors.purple,fontSize: height*0.019, textAlign:'center'}, state === 'movies' && {color:colors.secondary}]}>Movies</Text>
             </TouchableOpacity>
   
             <TouchableOpacity onPress={()=>setState('series')} style={[styles.selected,state==='series' && {backgroundColor:colors.purple}]}>
-              <Text style={[{color:colors.purple, width:'100%', textAlign:'center'}, state === 'series' && {color:colors.secondary}]}>Series</Text>
+              <Text style={[{color:colors.purple, width:'100%',fontSize: height*0.019, textAlign:'center'}, state === 'series' && {color:colors.secondary}]}>Series</Text>
             </TouchableOpacity>
   
           </View>
@@ -140,6 +140,8 @@ const Home = ({navigation}) => {
         <View style={styles.contents}>
              <FlatList 
              data={state==='movies' ? movieData : seriesData}
+             showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
               ListFooterComponent={loader}
               onEndReachedThreshold={0}
              contentContainerStyle={{

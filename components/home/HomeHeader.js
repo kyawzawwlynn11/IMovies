@@ -14,8 +14,8 @@ const HomeHeader = ({pressHandler}) => {
               <Text style={{color:colors.purple, fontSize:height*0.025, fontWeight:'bold'}}>IMovies</Text>
         </View>
         <View style={styles.rightView}>
-            <TouchableOpacity onPress={pressHandler} style={{width:40, height:40, borderRadius:50, backgroundColor:colors.secondary, justifyContent:'center', alignItems:'center', borderWidth:1, borderColor:colors.purple}}>
-            <AntDesign name="search1" size={18} color={colors.purple} />
+            <TouchableOpacity onPress={pressHandler} style={{width:width*0.1, height:height*0.05, borderRadius:50, backgroundColor:colors.primary, justifyContent:'center', alignItems:'center', borderWidth:1, borderColor:colors.purple}}>
+            <AntDesign name="search1" size={15} color={colors.purple} />
             </TouchableOpacity>
         </View>
     </View>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         //backgroundColor:'blue',
         justifyContent:'center',
         alignItems:'flex-start',
-        paddingLeft:width*0.15
+        paddingLeft:width*0.2
     },
     middleView:{
         width: '33%',

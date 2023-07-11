@@ -1,20 +1,21 @@
 import { StyleSheet, Text, View,Pressable, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons';
+import colors from '../../constants/colors';
 
 const SearchHeader = ({pressHandler}) => {
   return (
  <View style={styles.container}>
     <View style={styles.leftSection}>
        <TouchableOpacity onPress={pressHandler} style={styles.iconView}>
-       <AntDesign name="leftcircleo" size={25} color={'white'}/>
+       <AntDesign name="leftcircleo" size={25} color={colors.purple}/>
        </TouchableOpacity>
     </View>
     <View style={styles.middleSection}>
-     <Text style={{color:'#F9F3F3', fontSize: 18, fontWeight: 'bold',fontFamily:'Ledger'}}>Search</Text>
+     <Text style={{color: colors.purple, fontSize: 18, fontWeight: 'bold',fontFamily:'Ledger'}}>Search</Text>
    </View>
    <View style={styles.rightSection}>
-
+      
    </View>
 </View>
   )
