@@ -1,7 +1,8 @@
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons';
-
+import colors from '../../constants/colors';
+const {width,height} = Dimensions.get('window')
 
 const HomeHeader = ({pressHandler}) => {
   return (
@@ -10,11 +11,11 @@ const HomeHeader = ({pressHandler}) => {
 
       </View>
       <View style={styles.middleView}>
-              <Text style={{color:'white'}}>iMovies</Text>
+              <Text style={{color:colors.purple, fontSize:height*0.025, fontWeight:'bold'}}>IMovies</Text>
         </View>
         <View style={styles.rightView}>
-            <TouchableOpacity onPress={pressHandler} style={{width:30, height:30, borderRadius:50, backgroundColor:'black', justifyContent:'center', alignItems:'center', borderWidth:1, borderColor:'grey'}}>
-            <AntDesign name="search1" size={15} color="white" />
+            <TouchableOpacity onPress={pressHandler} style={{width:40, height:40, borderRadius:50, backgroundColor:colors.secondary, justifyContent:'center', alignItems:'center', borderWidth:1, borderColor:colors.purple}}>
+            <AntDesign name="search1" size={18} color={colors.purple} />
             </TouchableOpacity>
         </View>
     </View>
@@ -39,7 +40,8 @@ const styles = StyleSheet.create({
         height: '100%',
         //backgroundColor:'blue',
         justifyContent:'center',
-        alignItems:'flex-end'
+        alignItems:'flex-start',
+        paddingLeft:width*0.15
     },
     middleView:{
         width: '33%',

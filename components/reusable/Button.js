@@ -2,9 +2,9 @@ import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons';
 
-const Button = ({navigation,width,title,backgroundColor, color, borderRadius, onPress,value,goBackHandler,height, borderWidth, borderColor,icon}) => {
+const Button = ({navigation,width,title,backgroundColor, color, borderRadius, onPress,value,goBackHandler,height, borderWidth, borderColor,icon,pressHandler}) => {
   return (
-  <TouchableOpacity  style={[styles.container, {width:width,backgroundColor:backgroundColor,borderRadius:borderRadius,height:height, borderWidth: borderWidth, borderColor: borderColor}]}>
+  <TouchableOpacity onPress={pressHandler} style={[styles.container, {width:width,backgroundColor:backgroundColor,borderRadius:borderRadius,height:height, borderWidth: borderWidth, borderColor: borderColor}]}>
     {icon}
   </TouchableOpacity>
   )

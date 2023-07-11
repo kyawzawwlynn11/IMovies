@@ -7,11 +7,14 @@ import { Dimensions } from 'react-native'
 const {width, height} = Dimensions.get('window')
 import { AntDesign } from '@expo/vector-icons';
 import { FlatList } from 'react-native-gesture-handler'
+import Card from '../components/reusable/Card'
+import { ActivityIndicator } from 'react-native-paper'
 
 const Search = ({navigation}) => {
 
   const [text,setText] = useState(null)
   const [searchData, setSearchData] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const goBackHandler = () => {
     navigation.goBack()
@@ -27,9 +30,14 @@ const Search = ({navigation}) => {
         }
       };
       
-      fetch('https://api.themoviedb.org/3/search/multi?include_adult=false&language=en-US&page=1', options)
+      fetch(`https://api.themoviedb.org/3/search/multi?query=breaking%20bad&include_adult=false&language=en-US&page=1`, options)
         .then(response => response.json())
-        .then(response => console.log(response))
+        .then(response => {
+          
+          setSearchData(response.results)
+          console.log(searchData)
+          setLoading(false)
+        })
         .catch(err => console.error(err));
     }
 
@@ -43,7 +51,7 @@ const Search = ({navigation}) => {
       <View style={styles.searchBarView}>
 
        <TextInput onChangeText={(e) => setText(e)} placeholder='Search' style={styles.Searchbar} />
-      <Button onPress={fetchData} width={'15%'} height={'70%'} backgroundColor={colors.secondary} borderRadius={10}  icon={<AntDesign name="search1" size={25} color="white" />}/>
+      <Button pressHandler={fetchData} width={'15%'} height={'70%'} backgroundColor={colors.secondary} borderRadius={10}  icon={<AntDesign name="search1" size={25} color="white" />}/>
       </View>
      </View>
 
@@ -53,12 +61,19 @@ const Search = ({navigation}) => {
         </View>
 
         <View style={styles.resultsView}>
-          <FlatList 
-          data={searchData}
-          renderItem={({item}) => {
-            return <Card  item = {item} uri={ 'http://image.tmdb.org/t/p/w300'} pressHandler={cardPresshandler}/>
-          }}
-          />
+          {
+            loading ? 
+            <View style={{flex:1, backgroundColor:colors.primary}}>
+               <ActivityIndicator />
+            </View>
+            : 
+            <FlatList 
+            data={searchData}
+            renderItem={({item}) => {
+              return <Card  item ={item} uri={ 'http://image.tmdb.org/t/p/w300'} pressHandler={cardPresshandler}/>
+            }}
+            />
+          }
         </View>
      </View>
     </View>

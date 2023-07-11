@@ -2,17 +2,18 @@ import { StyleSheet, Text, View,Pressable, TouchableOpacity } from 'react-native
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import colors from '../../constants/colors';
+import { Ionicons } from '@expo/vector-icons';
 
 const DetailsHeader = ({pressHandler}) => {
   return (
     <View style={styles.container}>
     <View style={styles.leftSection}>
        <TouchableOpacity onPress={pressHandler} style={styles.iconView}>
-       <AntDesign name="leftcircleo" size={25} color={'white'}/>
+       <Ionicons name="chevron-back-circle-outline" size={30} color={colors.purple} />
        </TouchableOpacity>
     </View>
     <View style={styles.middleSection}>
-     <Text style={{color:'#F9F3F3', fontSize: 18, fontWeight: 'bold',fontFamily:'Ledger'}}>Details</Text>
+     
    </View>
    <View style={styles.rightSection}>
         
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     iconView:{
       height: '100%',
       width: '70%',
-      //backgroundColor: 'red',
+     // backgroundColor: 'red',
       justifyContent: 'center',
       alignItems:'center',
       //marginLeft: 10,

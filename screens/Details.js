@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailsHeader from '../components/details/DetailsHeader'
 import colors from '../constants/colors'
 import { ActivityIndicator } from 'react-native-paper'
+import { AntDesign } from '@expo/vector-icons';
 
 import Card from '../components/reusable/Card'
 
@@ -18,23 +19,28 @@ const [recommendedList, setRecommendedList] = useState([])
 
 
 useEffect(() => {
-  console.log('first_air_date' in data)
+ // console.log('first_air_date' in data)
+  console.log(data.id)
    getState()
+  // console.log(state)
+   console.log(recommendedList)
    if(state === 'movies') {
     console.log('fetching movies details')
-    fetchRecommended()
-    fetchMovieDetails()
     
+    fetchMovieDetails()
+    fetchRecommendedMovies()
+        
    } else if(state ==='series'){
     console.log('fetching series details')
-    fetchRecommended()
+   
     fetchSeriesDetails()
+    fetchRecommendedSeries()
    }
 
   // console.log(data)
    
    //console.log(similarMovies)
-},[state])
+},[state,data])
 
 
 //function for fetching details
@@ -53,6 +59,7 @@ useEffect(() => {
         console.log('data fetched')
         setDetails(response)
         setLoading(false)
+        
       })
       .catch(err => console.error(err));
   }
@@ -70,7 +77,7 @@ useEffect(() => {
       .then(response => response.json())
       .then(response => {
         setDetails(response)
-        setLoading(false)
+        setLoading(false)    
         //console.log(details)
       })
       .catch(err => console.error(err));
@@ -86,8 +93,8 @@ const getState = () => {
   }
 }
 
-//function for recommended fetching
-const fetchRecommended = () => {
+//functions for recommended fetching
+const fetchRecommendedMovies = () => {
   const options = {
     method: 'GET',
     headers: {
@@ -98,7 +105,24 @@ const fetchRecommended = () => {
   
   const tv_url = `https://api.themoviedb.org/3/tv/${data.id}/recommendations?language=en-US&page=1`
   const movie_url = `https://api.themoviedb.org/3/movie/${data.id}/recommendations?language=en-US&page=1`
-  fetch(state === 'movies' ? movie_url : tv_url, options)
+  fetch( movie_url, options)
+    .then(response => response.json())
+    .then(response => setRecommendedList(response.results))
+    .catch(err => console.error(err));
+}
+
+const fetchRecommendedSeries = () => {
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYWE4ZmI0ZmJkYTNmOGJjMGMxZDY0MDc2NGM1NWUxOCIsInN1YiI6IjY0YWFlMmU4ZDFhODkzMDBhZGJmOGVmNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.kD2k9V25v-NY798zk_nw4ECEclRYTRQaJM13uPbGXPM'
+    }
+  };
+  
+  const tv_url = `https://api.themoviedb.org/3/tv/${data.id}/recommendations?language=en-US&page=1`
+
+  fetch(tv_url, options)
     .then(response => response.json())
     .then(response => setRecommendedList(response.results))
     .catch(err => console.error(err));
@@ -131,15 +155,15 @@ console.log(data.id, data.original_title, data.name, data.id)
                   </View>
                   <View style={styles.detailsView}>
                        <Text style={{color:colors.purple, fontSize: height*0.025}}>
-                          {state === 'movies' ? data.original_title : data.original_name} - { state === 'movies' ? details.release_date.slice(0,4) : details.first_air_date.slice(0,4)}  
+                          {state === 'movies' ? data.original_title || details.original_title : data.original_name || details.original_name} - { state === 'movies' ? data.release_date.slice(0,4)|| details.release_date.slice(0,4) : data.first_air_date.slice(0,4) ||details.first_air_date.slice(0,4)}  
                        </Text>
                        {
                         state === 'movies' ? 
                         <Text style={{color:colors.purple,fontSize: height*0.018}}>Duration - {Math.floor(details.runtime/60)}h {details.runtime % 60}mins</Text>
                         :
-                        <Text style={{color:colors.purple,fontSize: height*0.018}}>{details.number_of_seasons} Season / {details.number_of_episodes} Episodes</Text>
+                        <Text style={{color:colors.purple,fontSize: height*0.018}}>{data.number_of_seasons || details.number_of_seasons} Season / {data.number_of_episodes || details.number_of_episodes} Episodes</Text>
                        }
-                       <Text style={{color:colors.purple,fontSize: height*0.018}}>Rating - {(details.vote_average).toFixed(1)}</Text>
+                       <Text style={{color:colors.purple,fontSize: height*0.018}}>Rating - {(data.vote_average).toFixed(1) || (details.vote_average).toFixed(1)}</Text>
                        <View style={{flexDirection:'row', gap:10, flexWrap:'wrap', marginTop: 10,}}>
 
                        {details.genres.map(item => {
@@ -159,7 +183,7 @@ console.log(data.id, data.original_title, data.name, data.id)
                    <Text style={{color: colors.purple, fontWeight: 'bold', fontSize:15, fontSize:height*0.022}}>Overview</Text>
                </View>
                <View style={styles.descView}>
-                <Text style={{color:colors.purple, fontSize:height*0.019}}>{data.overview || details.overview}</Text>
+                <Text style={{color:colors.purple, fontSize:height*0.019}}>{data.overview || details.overview || 'No overview available'}</Text>
                </View>
              </View>
          </View>
@@ -174,8 +198,29 @@ console.log(data.id, data.original_title, data.name, data.id)
                <FlatList 
                data={recommendedList}
                renderItem={({item}) => {
-                return(
-                  <Card item={item} uri={imgurl} pressHandler={cardPresshandler}/>
+                return (
+                  <TouchableOpacity style={[{width: width*0.35,backgroundColor:colors.secondary, height: height*0.2, marginHorizontal: width*0.01}]} onPress={()=> cardPresshandler(item)}>
+                
+                  <Image 
+                  source={{uri: imgurl + item.poster_path}}
+                  style={{
+                    width:'100%',
+                    height:'100%',
+                    resizeMode:'contain'
+                  }}
+                  />
+          
+                  <View style={{width:'100%', height:'20%', justifyContent:'space-evenly', backgroundColor:colors.secondary,paddingLeft: 10}}>
+                    
+                      
+                    <View style={{flexDirection:'row', gap: 5}}>
+                    <AntDesign name="staro" size={14} color={colors.purple} />
+                    <Text style={{color: colors.purple,fontSize:height*0.019}} >{item.vote_average.toFixed(1)}</Text>
+                    </View>
+              </View>
+             
+             
+            </TouchableOpacity>
                 )
                
               }}
@@ -207,7 +252,7 @@ const styles = StyleSheet.create({
         backgroundColor:colors.primary,
     },
     firstSection:{
-      flex:0.6,
+      flex:0.56,
       //backgroundColor:'orange',
       width: width-20,
       alignSelf:'center'
@@ -225,7 +270,7 @@ const styles = StyleSheet.create({
     },
 
     detailsView: {
-      flex: 0.6,
+      flex: 0.65,
       //backgroundColor:'gray',
       height:'90%',
       alignSelf:'center',
@@ -255,7 +300,7 @@ const styles = StyleSheet.create({
     },
     secondSection:{
      // backgroundColor:'red',
-      flex:0.32,
+      flex:0.36,
       width: width -20,
       alignSelf:'center',
       
@@ -267,7 +312,7 @@ const styles = StyleSheet.create({
     },
     similarContents:{
       flex:0.8,
-     // backgroundColor:'blue'
+    // backgroundColor:'blue',
     }
   
 

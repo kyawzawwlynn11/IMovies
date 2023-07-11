@@ -22,6 +22,7 @@ const Home = ({navigation}) => {
   const [state, setState] = useState('movies')
   const [moviesPage,setMoviePage] = useState(1)
   const [seriesPage, setSeriesPage] = useState(1)
+  const [loading, setLoading] = useState(true)
 
  //console.log('first_air_date' in seriesData[0])
  
@@ -37,6 +38,7 @@ const Home = ({navigation}) => {
 
   useEffect(()=> {
     fetchSeriesData()
+
   },[seriesPage,state])
 
   //functions for data fetching
@@ -57,6 +59,7 @@ const Home = ({navigation}) => {
       .then(response => {
      //  console.log(response)
        setMovieData([...movieData, ...response.results])
+       setLoading(false)
         
         //console.log(movieData)
       })
@@ -82,6 +85,7 @@ const Home = ({navigation}) => {
       .then(response => {
      // console.log(response)
        setSeriesData(prevData => response.results)
+       setLoading(false)
         
        // console.log(seriesData)
       })
@@ -92,7 +96,7 @@ const Home = ({navigation}) => {
   //pressHandlers
 
   const searchPressHandler = () => {
-    navigation.navigate('Search')
+    navigation.navigate('SearchStacks')
   }
 
   const cardPresshandler = (data) => {
@@ -109,62 +113,70 @@ const Home = ({navigation}) => {
     )
   }
 
-  return (
-    <View style={styles.container}>
-      <HomeHeader pressHandler={searchPressHandler}/>
-      <View style={styles.firstSection}>
-      <View style={styles.switchAndTitle}>
-        <View style={styles.switch}>
-          <TouchableOpacity onPress={()=>setState('movies')} style={[styles.selected,state==='movies' && {backgroundColor:colors.purple}]}>
-            <Text style={[{color:colors.purple, width:'100%', textAlign:'center'}, state === 'movies' && {color:colors.secondary}]}>Movies</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={()=>setState('series')} style={[styles.selected,state==='series' && {backgroundColor:colors.purple}]}>
-            <Text style={[{color:colors.purple, width:'100%', textAlign:'center'}, state === 'series' && {color:colors.secondary}]}>Series</Text>
-          </TouchableOpacity>
-
+  if(!loading){
+    return (
+      <View style={styles.container}>
+        <HomeHeader pressHandler={searchPressHandler}/>
+        <View style={styles.firstSection}>
+        <View style={styles.switchAndTitle}>
+          <View style={styles.switch}>
+            <TouchableOpacity onPress={()=>setState('movies')} style={[styles.selected,state==='movies' && {backgroundColor:colors.purple}]}>
+              <Text style={[{color:colors.purple, width:'100%', textAlign:'center'}, state === 'movies' && {color:colors.secondary}]}>Movies</Text>
+            </TouchableOpacity>
+  
+            <TouchableOpacity onPress={()=>setState('series')} style={[styles.selected,state==='series' && {backgroundColor:colors.purple}]}>
+              <Text style={[{color:colors.purple, width:'100%', textAlign:'center'}, state === 'series' && {color:colors.secondary}]}>Series</Text>
+            </TouchableOpacity>
+  
+          </View>
+  
+  
+          <View style={{flex:0.8, justifyContent:'center', width: '90%', alignSelf:'center'}}>
+            <Text style={{color:colors.purple, fontSize:20, fontWeight:'bold'}}>Trending { state === 'movies' ? 'Movies' : 'Series'}</Text>
+          </View>
+  
         </View>
-
-
-        <View style={{flex:0.8, justifyContent:'center', width: '90%', alignSelf:'center'}}>
-          <Text style={{color:colors.purple, fontSize:20, fontWeight:'bold'}}>Trending { state === 'movies' ? 'Movies' : 'Series'}</Text>
-        </View>
-
-      </View>
-
-      <View style={styles.contents}>
-           <FlatList 
-           data={state==='movies' ? movieData : seriesData}
-            ListFooterComponent={loader}
-            onEndReachedThreshold={0}
-           contentContainerStyle={{
-            flexDirection:'row',
-            flexWrap:'wrap',
-            justifyContent:'space-around'
-           }}
-           
-           onEndReached={() => {
-              if(state === 'movies'){
-                setMoviePage(prevMoviePage => prevMoviePage+1)
-              } else if(state === 'series') {
-                setSeriesPage(prevSeriesPage => prevSeriesPage+1)
-              }
-           }}
-           renderItem={({item}) => {
-            return (
-              <Card item={item} uri={imgurl} state={state} pressHandler={cardPresshandler}/>
+  
+        <View style={styles.contents}>
+             <FlatList 
+             data={state==='movies' ? movieData : seriesData}
+              ListFooterComponent={loader}
+              onEndReachedThreshold={0}
+             contentContainerStyle={{
+              flexDirection:'row',
+              flexWrap:'wrap',
+              justifyContent:'space-around'
+             }}
              
-            )
-           }}
-
-           keyExtractor={item => item.id}
-           />
-
+             onEndReached={() => {
+                if(state === 'movies'){
+                  setMoviePage(prevMoviePage => prevMoviePage+1)
+                } else if(state === 'series') {
+                  setSeriesPage(prevSeriesPage => prevSeriesPage+1)
+                }
+             }}
+             renderItem={({item}) => {
+              return (
+                <Card item={item} uri={imgurl} state={state} pressHandler={cardPresshandler}/>
+               
+              )
+             }}
+  
+             keyExtractor={item => item.id}
+             />
+  
+             
+        </View>
+            
            
+        </View>
       </View>
-          
-         
-      </View>
+    )
+  }
+
+  return(
+    <View style={{alignItems:'center', justifyContent:'center', flex: 1, backgroundColor:colors.primary}}>
+      <ActivityIndicator />
     </View>
   )
 }
@@ -186,14 +198,14 @@ const styles = StyleSheet.create({
   },
   switch:{
     //backgroundColor:'red',
-    width: 200,
+    width: width*0.5,
     flex: 0.2,alignSelf:'center',
     flexDirection:'row',
     
     overflow:'hidden',
     borderWidth:1,
     borderColor: colors.purple,
-    borderRadius:10
+    borderRadius:5
   },
   switchAndTitle:{
       flex:0.2,
