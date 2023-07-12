@@ -21,7 +21,7 @@ export default function Card({item,uri,state, pressHandler}) {
           <Text style={{color:colors.purple, fontSize:height*0.02,}}>{state === 'movies' ? item.original_title.length >= 15 ? item.original_title.slice(0,10)+'...': item.original_title  : item.name.length >= 20? item.name.slice(0,10)+'...' : item.name} ({ state === 'movies' ? item.release_date.slice(0,4) : item.first_air_date.slice(0,4)})</Text>
             
           <View style={{flexDirection:'row', gap: 5}}>
-          <AntDesign name="staro" size={14} color={colors.purple} />
+          <AntDesign name="staro" size={height*0.022} color={colors.purple} />
           <Text style={{color: colors.purple,fontSize:height*0.019}} >{item.vote_average}</Text>
           </View>
     </View>

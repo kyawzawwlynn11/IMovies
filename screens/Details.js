@@ -183,7 +183,7 @@ console.log(data.id, data.original_title, data.name, data.id)
                    <Text style={{color: colors.purple, fontWeight: 'bold', fontSize:15, fontSize:height*0.022}}>Overview</Text>
                </View>
                <View style={styles.descView}>
-                <Text style={{color:colors.purple, fontSize:height*0.019}}>{data.overview || details.overview || 'No overview available'}</Text>
+                <Text style={{color:colors.purple, fontSize: data.overview.length > 420 || (details.overview.length > 420) ?height*0.015 : height*0.019 }}>{data.overview || details.overview || 'No overview available'}</Text>
                </View>
              </View>
          </View>

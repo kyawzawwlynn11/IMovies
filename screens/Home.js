@@ -178,7 +178,7 @@ const Home = ({navigation}) => {
 
   return(
     <View style={{alignItems:'center', justifyContent:'center', flex: 1, backgroundColor:colors.primary}}>
-      <ActivityIndicator />
+      <ActivityIndicator color={colors.purple}  size={'large'}/>
     </View>
   )
 }
@@ -229,7 +229,8 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   loader:{
-    marginVertical:15,
-    alignItems:'center'
+    marginHorizontal:10,
+    alignItems:'center',
+  
   }
 })

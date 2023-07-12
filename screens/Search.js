@@ -36,54 +36,61 @@ const Search = ({navigation}) => {
       </View>
 
       <View style={styles.resultsView}>
-          
-         
-         
-          <FlatList 
-           data={searchData}
-           showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            ListFooterComponent={loader}
-            onEndReachedThreshold={0}
-           contentContainerStyle={{
-            flexDirection:'row',
-            flexWrap:'wrap',
-            justifyContent:'space-around'
-           }}
-           
-           onEndReached={() => {
-              setPage(prevPage => prevPage+1)
-           }}
-           renderItem={({item}) => {
-            return (
-              <TouchableOpacity style={[{width: width*0.4,backgroundColor:colors.secondary, height: height*0.3,  marginBottom: height*0.1}]} onPress={()=> cardPresshandler(item)}>
-              
-                <Image 
-                source={{uri: imgurl + item.poster_path}}
-                style={{
-                  width:'100%',
-                  height:'100%',
-                  resizeMode:'cover'
-                }}
-                />
-        
-                <View style={{width:'100%', height:'20%', justifyContent:'space-evenly', backgroundColor:colors.secondary,paddingLeft: 10,}}>
-                  <Text style={{color:colors.purple, fontSize:14,}}>{item.title || item.name}</Text>
-                    
-                  <View style={{flexDirection:'row', gap: 5}}>
-                  <AntDesign name="staro" size={14} color={colors.purple} />
-                  <Text style={{color: colors.purple,fontSize:height*0.019}} >{item.vote_average.toFixed(1)}</Text>
-                  </View>
-            </View>
-           
-           
-          </TouchableOpacity>
+          {
+            searchData !== undefined || searchData.length !== 0  
+            ?
              
-            )
-           }}
+          <FlatList 
+          data={searchData}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          ListFooterComponent={loader}
+          onEndReachedThreshold={0}
+          contentContainerStyle={{
+          flexDirection:'row',
+          flexWrap:'wrap',
+          justifyContent:'space-around'
+          }}
 
-           keyExtractor={item => item.id}
-           />
+          onEndReached={() => {
+            setPage(prevPage => prevPage+1)
+          }}
+          renderItem={({item}) => {
+          return (
+            <TouchableOpacity style={[{width: width*0.4,backgroundColor:colors.secondary, height: height*0.3,  marginBottom: height*0.1}]} onPress={()=> cardPresshandler(item)}>
+            
+                     <Image 
+                        source={{uri: imgurl + item.poster_path}}
+                        style={{
+                          width:'100%',
+                          height:'100%',
+                          resizeMode:'cover'
+                        }}
+                      />
+
+              <View style={{width:'100%', height:'20%', justifyContent:'space-evenly', backgroundColor:colors.secondary,paddingLeft: 10,}}>
+                <Text style={{color:colors.purple, fontSize:14,}}>{item.title || item.name}</Text>
+                  
+                <View style={{flexDirection:'row', gap: 5}}>
+                <AntDesign name="staro" size={14} color={colors.purple} />
+                <Text style={{color: colors.purple,fontSize:height*0.019}} >{item.vote_average.toFixed(1)}</Text>
+                </View>
+              </View>
+
+
+          </TouchableOpacity>
+            
+          )
+          }}
+            
+            keyExtractor={item => item.id}
+            />
+                 :
+                 null
+          }
+         
+         
+          
 
           
           
@@ -114,6 +121,7 @@ const Search = ({navigation}) => {
     }
 
     const cardPresshandler = (data) => {
+      setFocus(false)
       navigation.navigate('Details', {data: data})
    }
 
@@ -134,7 +142,7 @@ const Search = ({navigation}) => {
      <View style={styles.firstSection}>
       <View style={styles.searchBarView}>
       <View style={{flexDirection:'row', width:'100%', height:'100%', justifyContent:'space-between', alignItems:'flex-end', }}>
-       <TextInput onBlur={() => setFocus(false)} onFocus={() => setFocus(true)} onChangeText={(e) => fetchData(e.replace(/ /g,"%20"))} placeholder='Search' style={[styles.Searchbar, focus && {borderRadius:0}]} />
+       <TextInput  onFocus={() => setFocus(true)} onChangeText={(e) => fetchData(e.replace(/ /g,"%20"))} placeholder='Search' style={[styles.Searchbar, focus && {borderRadius:0}]} />
       <Button pressHandler={() => searchButtonHandler()} width={'15%'} height={'70%'} backgroundColor={colors.secondary} borderRadius={10}  icon={<AntDesign name="search1" size={25} color={colors.purple} />}/>
       </View>
       {focus && <SearchResults data={searchData} pressHandler={cardPresshandler}/> }
@@ -145,6 +153,8 @@ const Search = ({navigation}) => {
      </View>
 
      {!focus && temp}
+
+     
     
 
     

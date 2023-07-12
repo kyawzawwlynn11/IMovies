@@ -22,7 +22,7 @@ const SearchResults = ({data,pressHandler}) => {
         data={data}
         renderItem={({item}) => {
          return (
-           <TouchableOpacity onPress={() => pressHandler(item)} style={{width:'90%', height:100, backgroundColor: colors.secondary, flexDirection:'row', alignItems:'center', gap: 10, alignSelf:'center'}}>
+           <TouchableOpacity onPress={() =>  pressHandler(item)} style={{width:'95%', height:100, backgroundColor: colors.secondary, flexDirection:'row', alignItems:'center', gap: 10, alignSelf:'center'}}>
              <Image 
                style={{
                  width:50,
@@ -30,7 +30,7 @@ const SearchResults = ({data,pressHandler}) => {
                }}
                source={{uri: imgurl + item.backdrop_path || imgurl + item.poster_path}}
              />
-             <Text style={{color:colors.purple}}>{item.name || item.title || item.original_title}</Text>
+             <Text style={{color:colors.purple, fontSize: height*0.015}}>{item.name || item.title || item.original_title}</Text>
            </TouchableOpacity>
          )
         }}

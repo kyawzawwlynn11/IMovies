@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     },
     iconView:{
       height: '100%',
-      width: '70%',
+      width: '55%',
      // backgroundColor: 'red',
       justifyContent: 'center',
       alignItems:'center',

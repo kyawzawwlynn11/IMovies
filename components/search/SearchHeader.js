@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     },
     iconView:{
       height: '100%',
-      width: '70%',
+      width: '50%',
       //backgroundColor: 'red',
       justifyContent: 'center',
       alignItems:'center',
