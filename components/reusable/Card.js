@@ -7,7 +7,7 @@ const{width,height} = Dimensions.get('window')
 
 export default function Card({item,uri,state, pressHandler}) {
   return (
-    <TouchableOpacity style={[{width: width*0.4, height: height*0.3, backgroundColor:'green', marginBottom: height*0.1}]} onPress={()=> pressHandler(item)}>
+    <TouchableOpacity style={[{width: width*0.4, height: height*0.3, marginBottom: height*0.1}]} onPress={()=> pressHandler(item)}>
                 
         <Image 
         source={{uri: uri + item.poster_path}}
