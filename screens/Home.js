@@ -84,7 +84,7 @@ const Home = ({navigation}) => {
       .then(response => response.json())
       .then(response => {
      // console.log(response)
-       setSeriesData(prevData => response.results)
+       setSeriesData([...seriesData, ...response.results])
        setLoading(false)
         
        // console.log(seriesData)

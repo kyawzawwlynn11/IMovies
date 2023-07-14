@@ -41,7 +41,7 @@ export default function App() {
      
       </Tab.Navigator>
 
-      <StatusBar />
+      <StatusBar backgroundColor={colors.primary}/>
     </NavigationContainer>
   );
 }

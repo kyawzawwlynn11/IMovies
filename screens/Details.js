@@ -168,7 +168,7 @@ console.log(data.id, data.original_title, data.name, data.id)
 
                        {details.genres.map(item => {
                          return (
-                          <View style={{width:width*0.2, height:height*0.03,borderWidth:1, borderRadius:5, borderColor:colors.purple}}>
+                          <View key={item.id} style={{width:width*0.2, height:height*0.03,borderWidth:1, borderRadius:5, borderColor:colors.purple}}>
                             <Text style={{color:colors.purple, width:'100%', height:'100%', fontSize:item.name.length > 5 ? height*0.011:height*0.015, textAlign:'center', textAlignVertical: 'center'}}>{item.name}</Text>
                           </View>
                          )
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     },
 
     descView:{
-      
+      width:'100%',
       //flex:0.8,
       //backgroundColor:'red',
       alignSelf:'center',
